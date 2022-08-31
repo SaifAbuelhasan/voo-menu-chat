@@ -5,12 +5,6 @@ import { getMessages } from "./database/services";
 import { useEffect } from "react";
 import { loadChatMessages } from "./actions/messages";
 
-const print = (array) => {
-  array.forEach((element) => {
-    console.log(element);
-  });
-};
-
 function App(props) {
   /**
    * dispatch the messages to the redux store

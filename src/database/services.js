@@ -4,8 +4,24 @@ import {
   onSnapshot,
   orderBy,
   query,
+  addDoc,
 } from "firebase/firestore";
 import firestore from "./index";
+
+export const getTime = (message) => {
+  //   get date from time stamp
+  const date = new Date(message.time.seconds * 1000);
+
+  //   print 12 hrs format
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const minutesString = minutes < 10 ? "0" + minutes : minutes;
+  const ampm = hours >= 12 ? "pm" : "am";
+  const hours12 = hours % 12;
+  const hours12String = hours12 < 10 ? "0" + hours12 : hours12;
+  const time = hours12String + ":" + minutesString + " " + ampm;
+  return time;
+};
 
 /**
  * get messages from firestore and store them in an object with the key as the customer id
@@ -13,9 +29,6 @@ import firestore from "./index";
  * @param {function} callback - dispatch function to dispatch action
  */
 export const getMessages = async (authedUser, callback) => {
-  // initialize messages object
-  const messages = {};
-
   const customerCollection = collection(
     firestore,
     "chats",
@@ -49,24 +62,38 @@ export const getMessages = async (authedUser, callback) => {
     // call callback to dispatch action
     callback(doc.id, customerMessages);
   });
-  // customerDocs.forEach(async (customerDoc) => {
-  //     const messages = await getDocs(collection(firestore, "chats", "10", "branches", "20", "customers", customerDoc.id, "messages"));
+};
 
-  //   return onSnapshot(
-  //     collection(firestore, "chats", "10", "branches", "20", "customers"),
-  //     (querySnapshot) => {
-  //       const customers = [];
-  //       const messages = [];
-  //       querySnapshot.forEach((doc) => {
-  //         customers.push({ ...doc.data(), id: doc.id });
-  //         console.log("test test");
-  //         console.log(doc);
-  //         // const message = { messages: [...doc.data().messages], id: doc.id };
-  //         // messages.push(message);
-  //       });
-  //       callback(customers);
-  //     }
-  //   );
+/**
+ * set message in firestore
+ * @param {string} message - message to be set
+ * @return {void}
+ */
+export const sendMessage = async (activeCustomer, message) => {
+  try {
+    const messagesCollection = collection(
+      firestore,
+      "chats",
+      "10",
+      "branches",
+      "20",
+      "customers",
+      activeCustomer,
+      "messages"
+    );
+    await addDoc(messagesCollection, {
+      customerName: "John Doe",
+      employeeName: "Jane Doe",
+      direction: true,
+      employeeId: null,
+      sender: "1",
+      reciever: "2",
+      message,
+      time: new Date(),
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 /**
@@ -76,7 +103,6 @@ export const getMessages = async (authedUser, callback) => {
  * @param {function} callback - dispatch function to dispatch action
  */
 export const messagesListener = (authedUser, activeCustomerId, callback) => {
-  console.log("messagesListener");
   return onSnapshot(
     query(
       collection(

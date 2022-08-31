@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { getTime } from "../../database/services";
 
 const Contact = (props) => {
   const { customer, handleClick } = props;
   let isActive = "";
+  // get contact messages from state
+  let lastMessage = "";
+  const contactMessages = props.messages[customer.id];
+  if (contactMessages) {
+    lastMessage = contactMessages[contactMessages.length - 1];
+  }
+
   if (props.activeCustomer) {
     isActive = customer.id === props.activeCustomer.id ? "active" : "";
   }
@@ -22,11 +30,13 @@ const Contact = (props) => {
         <div className="contacts-content">
           <div className="contacts-info">
             <h6 className="chat-name text-truncate">{customer.name}</h6>
-            <div className="chat-time">Just now</div>
+            <div className="chat-time">
+              {lastMessage ? getTime(lastMessage) : ""}
+            </div>
           </div>
           <div className="contacts-texts">
             <p className="text-truncate">
-              I’m sorry, I didn’t catch that. Could you please repeat?
+              {lastMessage ? lastMessage.message : "No messages"}
             </p>
           </div>
         </div>
@@ -38,6 +48,7 @@ const Contact = (props) => {
 const mapStateToProps = (state) => {
   return {
     activeCustomer: state.activeCustomer,
+    messages: state.messages,
   };
 };
 

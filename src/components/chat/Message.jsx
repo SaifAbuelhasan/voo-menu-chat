@@ -1,20 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
-
-const getTime = (message) => {
-  //   get date from time stamp
-  const date = new Date(message.time.seconds * 1000);
-
-  //   print 12 hrs format
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-  const minutesString = minutes < 10 ? "0" + minutes : minutes;
-  const ampm = hours >= 12 ? "pm" : "am";
-  const hours12 = hours % 12;
-  const hours12String = hours12 < 10 ? "0" + hours12 : hours12;
-  const time = hours12String + ":" + minutesString + " " + ampm;
-  return time;
-};
+import { getTime } from "../../database/services";
 
 const Message = (props) => {
   const { message } = props;

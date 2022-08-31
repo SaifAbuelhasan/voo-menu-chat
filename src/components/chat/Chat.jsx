@@ -1,97 +1,23 @@
 import { useState, useEffect, useRef } from "react";
-import firestore from "../../database/index";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
 import { connect } from "react-redux";
 import Message from "./Message";
 import ChatFooter from "./ChatFooter";
 import { loadChatMessages } from "../../actions/messages";
 import { messagesListener } from "../../database/services";
 
-/**
- * set message in firestore
- * @param {string} message - message to be set
- * @return {void}
- */
-const sendMessage = async (activeCustomer, message) => {
-  try {
-    const messagesCollection = collection(
-      firestore,
-      "chats",
-      "10",
-      "branches",
-      "20",
-      "customers",
-      activeCustomer,
-      "messages"
-    );
-    await addDoc(messagesCollection, {
-      customerName: "John Doe",
-      employeeName: "Jane Doe",
-      direction: true,
-      employeeId: null,
-      sender: "1",
-      reciever: "2",
-      message,
-      time: new Date(),
-    });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-/**
- * get messages from firestore
- * @param {string} activeCustomer - active customer id
- * @param {string} message - message to be set
- * @return {void}
- */
-const getMessages = (activeCustomer, callback) => {
-  return onSnapshot(
-    query(
-      collection(
-        firestore,
-        "chats",
-        "10",
-        "branches",
-        "20",
-        "customers",
-        activeCustomer,
-        "messages"
-      ),
-      orderBy("time")
-    ),
-    (querySnapshot) => {
-      const messages = [];
-      querySnapshot.forEach((doc) => {
-        messages.push(doc.data());
-      });
-      callback(messages);
-    }
-  );
-};
-
 const Chat = (props) => {
-  const [messages, setMessages] = useState([]);
-
   // useRef to scroll to end of chat on new message
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView();
+    }
+    // messagesEndRef.current.scrollIntoView();
   };
 
   const setMessagesRedux = (messages) => {
     props.dispatch(loadChatMessages(props.activeCustomer.id, messages));
   };
-
-  console.log(props.messages);
-  // scroll to bottom on mount useEffect
-  // useEffect(scrollToBottom, [props.activeCustomer]);
 
   useEffect(() => {
     if (props.activeCustomer) {
@@ -104,6 +30,8 @@ const Chat = (props) => {
       return unsubscribe;
     }
   }, [props.activeCustomer]);
+
+  useEffect(scrollToBottom, [props.messages]);
 
   let avatar = 1;
   if (props.activeCustomer) {
@@ -587,7 +515,7 @@ const Chat = (props) => {
             ></div>
           </div>
 
-          <ChatFooter sendMessage={sendMessage} />
+          <ChatFooter />
         </div>
       ) : (
         <div></div>

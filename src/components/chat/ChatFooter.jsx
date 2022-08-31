@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { connect } from "react-redux";
+import { sendMessage } from "../../database/services";
 
 const ChatFooter = (props) => {
   const [message, setMessage] = useState("");
@@ -130,7 +131,7 @@ const ChatFooter = (props) => {
         onKeyPress={(e) => {
           if (e.key === "Enter" && e.target.value.trim() !== "") {
             e.preventDefault();
-            props.sendMessage(props.activeCustomer.id, message);
+            sendMessage(props.activeCustomer.id, message);
             setMessage("");
           }
         }}
@@ -142,7 +143,7 @@ const ChatFooter = (props) => {
         role="button"
         onClick={() => {
           if (message.trim() !== "") {
-            props.sendMessage(props.activeCustomer.id, message);
+            sendMessage(props.activeCustomer.id, message);
             setMessage("");
           }
         }}
