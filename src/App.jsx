@@ -1,8 +1,33 @@
 import Sidebar from "./components/sidebar/Sidebar";
 import Chat from "./components/chat/Chat";
 import { connect } from "react-redux";
+import { getMessages } from "./database/services";
+import { useEffect } from "react";
+import { loadChatMessages } from "./actions/messages";
 
-function App() {
+const print = (array) => {
+  array.forEach((element) => {
+    console.log(element);
+  });
+};
+
+function App(props) {
+  /**
+   * dispatch the messages to the redux store
+   * @param {string} customerId
+   * @param {array} messages
+   */
+  const load = (customerId, messages) => {
+    props.dispatch(loadChatMessages(customerId, messages));
+  };
+
+  useEffect(() => {
+    getMessages(null, load);
+    return () => {
+      console.log("unmounting");
+    };
+  }, []);
+
   return (
     <div className="main-layout">
       <Sidebar />

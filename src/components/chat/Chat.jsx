@@ -10,6 +10,8 @@ import {
 import { connect } from "react-redux";
 import Message from "./Message";
 import ChatFooter from "./ChatFooter";
+import { loadChatMessages } from "../../actions/messages";
+import { messagesListener } from "../../database/services";
 
 /**
  * set message in firestore
@@ -83,12 +85,22 @@ const Chat = (props) => {
     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const setMessagesRedux = (messages) => {
+    props.dispatch(loadChatMessages(props.activeCustomer.id, messages));
+  };
+
+  console.log(props.messages);
   // scroll to bottom on mount useEffect
   // useEffect(scrollToBottom, [props.activeCustomer]);
 
   useEffect(() => {
     if (props.activeCustomer) {
-      const unsubscribe = getMessages(props.activeCustomer.id, setMessages);
+      console.log("active customer", props.activeCustomer);
+      const unsubscribe = messagesListener(
+        null,
+        props.activeCustomer.id,
+        setMessagesRedux
+      );
       return unsubscribe;
     }
   }, [props.activeCustomer]);
@@ -563,7 +575,7 @@ const Chat = (props) => {
 
           <div className="chat-content p-2" id="messageBody">
             <div className="container">
-              {messages.map((message) => {
+              {props.messages.map((message) => {
                 return <Message message={message} />;
               })}
             </div>
@@ -1099,8 +1111,13 @@ const Chat = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  let messages;
+  if (state.activeCustomer) {
+    messages = state.messages[state.activeCustomer.id];
+  }
   return {
     activeCustomer: state.activeCustomer,
+    messages,
   };
 };
 
