@@ -2,13 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <!-- Viewport-->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <!-- SEO Meta Tags-->
+    <meta
+      name="keywords"
+      content="quicky, chat, messenger, conversation, social, communication"
+    />
+    <meta
+      name="description"
+      content="Quicky is a Bootstrap based modern and fully responsive Messaging template to help build Messaging or Chat application fast and easy."
+    />
+    <meta name="subject" content="communication" />
+    <meta name="copyright" content="frontendmatters" />
+    <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
+    <title>Vooo Chat</title>
+    <!-- Favicon and Touch Icons-->
+    <link rel="shortcut icon" href="./assets/media/logo.svg" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+
+    <link rel="stylesheet" href="./assets/webfonts/inter/inter.css" />
+    <link rel="stylesheet" href="./assets/css/app.min.css" />
+    <link rel="stylesheet" href="./assets/css/style-sound.css" />
+
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -39,5 +61,20 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- Javascript Files -->
+    <script src="./assets/vendors/jquery/jquery-3.5.0.min.js"></script>
+    <script src="./assets/vendors/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="./assets/vendors/magnific-popup/jquery.magnific-popup.min.js"></script>
+    <script src="./assets/vendors/svg-inject/svg-inject.min.js"></script>
+    <script src="./assets/vendors/modal-stepes/modal-steps.min.js"></script>
+    <script src="./assets/vendors/emojione/emojionearea.min.js"></script>
+    <script src="./assets/js/app.js"></script>
+    <script>
+      // Scroll to end of chat
+      document.querySelector(".chat-finished").scrollIntoView({
+        block: "end", // "start" | "center" | "end" | "nearest",
+        behavior: "auto", //"auto"  | "instant" | "smooth",
+      });
+    </script>
   </body>
 </html>
