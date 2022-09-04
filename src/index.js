@@ -6,6 +6,8 @@ import reportWebVitals from "./reportWebVitals";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import reducer from "./reducers";
+import middleware from "./middleware";
+import logger from "./middleware/logger";
 
 // configure store with preloaded state
 // const store = configureStore({
@@ -21,15 +23,17 @@ import reducer from "./reducers";
 // });
 
 // console.log(store.getState());
-const store = configureStore({ reducer });
+// const store = configureStore({ reducer, middleware });
+// redux configure store with reducer and middleware
+const store = configureStore({ reducer, middleware: [logger] });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <App />
+  </Provider>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

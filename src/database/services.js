@@ -5,8 +5,29 @@ import {
   orderBy,
   query,
   addDoc,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 import firestore from "./index";
+
+export const getDate = (message) => {
+  const date = new Date(message.time.seconds * 1000);
+  return date.toLocaleDateString();
+};
+
+export const printDate = (date) => {
+  const dateObj = new Date(date);
+  const today = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
+  if (dateObj.toLocaleDateString() === today.toLocaleDateString()) {
+    return "today";
+  }
+  if (dateObj.toLocaleDateString() === yesterday.toLocaleDateString()) {
+    return "yesterday";
+  }
+  return dateObj.toLocaleDateString();
+};
 
 export const getTime = (message) => {
   //   get date from time stamp
@@ -22,6 +43,37 @@ export const getTime = (message) => {
   const time = hours12String + ":" + minutesString + " " + ampm;
   return time;
 };
+
+// /**
+//  * listen to changes on active customer messages and dispatch action
+//  * @param {Object} authedUser - user containing shopId and branchId
+//  * @param {string} customerId - id of customer to listen to
+//  * @param {function} callback - dispatch function to dispatch action
+//  */
+// export const messagesListener = (authedUser, customerId, callback) => {
+//   return onSnapshot(
+//     query(
+//       collection(
+//         firestore,
+//         "chats",
+//         "10",
+//         "branches",
+//         "20",
+//         "customers",
+//         customerId,
+//         "messages"
+//       ),
+//       orderBy("time")
+//     ),
+//     (querySnapshot) => {
+//       const messages = [];
+//       querySnapshot.forEach((doc) => {
+//         messages.push(doc.data());
+//       });
+//       callback(messages);
+//     }
+//   );
+// };
 
 /**
  * get messages from firestore and store them in an object with the key as the customer id
@@ -40,9 +92,6 @@ export const getMessages = async (authedUser, callback) => {
   const customerDocs = await getDocs(customerCollection);
 
   customerDocs.forEach(async (doc) => {
-    // initialize array for this customer's messages
-    const customerMessages = [];
-
     const messagesCollection = collection(
       firestore,
       "chats",
@@ -54,13 +103,14 @@ export const getMessages = async (authedUser, callback) => {
       "messages"
     );
     const messagesQuery = query(messagesCollection, orderBy("time"));
-    const messagesDocs = await getDocs(messagesQuery);
-
-    messagesDocs.forEach((doc) => {
-      customerMessages.push({ ...doc.data(), id: doc.id });
+    onSnapshot(messagesQuery, (querySnapshot) => {
+      // initialize array for this customer's messages
+      const customerMessages = [];
+      querySnapshot.forEach((doc) => {
+        customerMessages.push({ ...doc.data(), id: doc.id });
+      });
+      callback(doc.id, customerMessages);
     });
-    // call callback to dispatch action
-    callback(doc.id, customerMessages);
   });
 };
 
@@ -97,32 +147,27 @@ export const sendMessage = async (activeCustomer, message) => {
 };
 
 /**
- * listen to changes on active customer messages and dispatch action
- * @param {Object} authedUser - user containing shopId and branchId
- * @param {string} activeCustomerId - id of the active customer
- * @param {function} callback - dispatch function to dispatch action
+ * change message to seen
+ * @param {string} messageId - id of message to be changed
+ * @return {void}
  */
-export const messagesListener = (authedUser, activeCustomerId, callback) => {
-  return onSnapshot(
-    query(
-      collection(
-        firestore,
-        "chats",
-        "10",
-        "branches",
-        "20",
-        "customers",
-        activeCustomerId,
-        "messages"
-      ),
-      orderBy("time")
-    ),
-    (querySnapshot) => {
-      const messages = [];
-      querySnapshot.forEach((doc) => {
-        messages.push(doc.data());
-      });
-      callback(messages);
-    }
-  );
-};
+// export const changeMessageToSeen = async (messageId, customerId) => {
+//   try {
+//     const messageDoc = doc(
+//       firestore,
+//       "chats",
+//       "10",
+//       "branches",
+//       "20",
+//       "customers",
+//       customerId,
+//       "messages",
+//       messageId
+//     );
+//     await updateDoc(messageDoc, {
+//       seen: true,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };

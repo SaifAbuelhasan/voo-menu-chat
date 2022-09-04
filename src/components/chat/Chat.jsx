@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Message from "./Message";
 import ChatFooter from "./ChatFooter";
 import { loadChatMessages } from "../../actions/messages";
-import { messagesListener } from "../../database/services";
+import { getDate, messagesListener, printDate } from "../../database/services";
 
 const Chat = (props) => {
   // useRef to scroll to end of chat on new message
@@ -12,24 +12,7 @@ const Chat = (props) => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView();
     }
-    // messagesEndRef.current.scrollIntoView();
   };
-
-  const setMessagesRedux = (messages) => {
-    props.dispatch(loadChatMessages(props.activeCustomer.id, messages));
-  };
-
-  useEffect(() => {
-    if (props.activeCustomer) {
-      console.log("active customer", props.activeCustomer);
-      const unsubscribe = messagesListener(
-        null,
-        props.activeCustomer.id,
-        setMessagesRedux
-      );
-      return unsubscribe;
-    }
-  }, [props.activeCustomer]);
 
   useEffect(scrollToBottom, [props.messages]);
 
@@ -503,8 +486,20 @@ const Chat = (props) => {
 
           <div className="chat-content p-2" id="messageBody">
             <div className="container">
-              {props.messages.map((message) => {
-                return <Message message={message} />;
+              {props.messageDays.map((messageDay, index) => {
+                return (
+                  <div class="message-day" key={index}>
+                    <div
+                      class="message-divider sticky-top pb-2"
+                      data-label={printDate(getDate(messageDay[0]))}
+                    >
+                      &nbsp;
+                    </div>
+                    {messageDay.map((message, index) => {
+                      return <Message message={message} key={index} />;
+                    })}
+                  </div>
+                );
               })}
             </div>
 
@@ -1038,14 +1033,32 @@ const Chat = (props) => {
   );
 };
 
+const getMessageDays = (messages) => {
+  const messageDays = [];
+  let lastDay = null;
+  let idx = -1;
+  messages.forEach((message) => {
+    if (lastDay !== getDate(message)) {
+      lastDay = getDate(message);
+      messageDays.push([]);
+      idx++;
+    }
+    messageDays[idx].push(message);
+  });
+  return messageDays;
+};
+
 const mapStateToProps = (state) => {
   let messages;
+  let messageDays;
   if (state.activeCustomer) {
     messages = state.messages[state.activeCustomer.id];
+    messageDays = getMessageDays(messages);
   }
   return {
     activeCustomer: state.activeCustomer,
     messages,
+    messageDays,
   };
 };
 
