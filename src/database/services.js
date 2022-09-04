@@ -149,25 +149,26 @@ export const sendMessage = async (activeCustomer, message) => {
 /**
  * change message to seen
  * @param {string} messageId - id of message to be changed
+ * @param {string} customerId - id of customer to which message belongs
  * @return {void}
  */
-// export const changeMessageToSeen = async (messageId, customerId) => {
-//   try {
-//     const messageDoc = doc(
-//       firestore,
-//       "chats",
-//       "10",
-//       "branches",
-//       "20",
-//       "customers",
-//       customerId,
-//       "messages",
-//       messageId
-//     );
-//     await updateDoc(messageDoc, {
-//       seen: true,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//   }
-// };
+export const changeMessageToSeen = async (messageId, customerId) => {
+  try {
+    const messageDoc = doc(
+      firestore,
+      "chats",
+      "10",
+      "branches",
+      "20",
+      "customers",
+      customerId,
+      "messages",
+      messageId
+    );
+    await updateDoc(messageDoc, {
+      seen: true,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};

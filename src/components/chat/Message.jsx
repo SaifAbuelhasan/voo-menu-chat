@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { getTime } from "../../database/services";
+import { changeMessageToSeen, getTime } from "../../database/services";
 
 const Message = (props) => {
   const { message } = props;
@@ -10,6 +11,13 @@ const Message = (props) => {
   if (props.activeCustomer) {
     avatar = message.direction ? 1 : props.activeCustomer.avatar;
   }
+
+  // set messages to seen when they are displayed
+  useEffect(() => {
+    if (message.direction === false && message.seen === false) {
+      changeMessageToSeen(message.id, props.activeCustomer.id);
+    }
+  }, [message, props.activeCustomer]);
   return (
     <div className={`message ${isSelf}`}>
       <div className="message-wrapper">
