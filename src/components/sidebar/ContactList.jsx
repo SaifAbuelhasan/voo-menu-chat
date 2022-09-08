@@ -23,6 +23,7 @@ const ContactList = (props) => {
     const unsubscribe = onSnapshot(doc(firestore, "userChats", "10"), (doc) => {
       setChats(doc.data());
     });
+    // console.log(chats);
     return unsubscribe;
   }, []);
 
@@ -50,7 +51,7 @@ const ContactList = (props) => {
           return (
             <Contact
               key={key}
-              chat={value}
+              chat={{ ...value, id: key }}
               handleClick={changeActiveCustomer}
             />
           );

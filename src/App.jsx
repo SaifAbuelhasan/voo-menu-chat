@@ -44,9 +44,9 @@ function App(props) {
                 stroke="currentColor"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M10 19l-7-7m0 0l7-7m-7 7h18"
                 />
               </svg>
@@ -57,9 +57,9 @@ function App(props) {
             <svg
               className="hw-20"
               fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
@@ -93,9 +93,9 @@ function App(props) {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                   />
                 </svg>
@@ -121,15 +121,15 @@ function App(props) {
                   stroke="currentColor"
                 >
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
                   />
                   <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
                 </svg>
@@ -187,9 +187,9 @@ function App(props) {
                           stroke="currentColor"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M6 18L18 6M6 6l12 12"
                           ></path>
                         </svg>
@@ -232,9 +232,9 @@ function App(props) {
                               stroke="currentColor"
                             >
                               <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                               ></path>
                             </svg>
@@ -341,9 +341,9 @@ function App(props) {
                           stroke="currentColor"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
                             d="M6 18L18 6M6 6l12 12"
                           ></path>
                         </svg>
@@ -365,11 +365,11 @@ function App(props) {
                               type="checkbox"
                               className="custom-control-input"
                               id="quickSettingSwitch1"
-                              checked=""
+                              defaultChecked=""
                             />
                             <label
                               className="custom-control-label"
-                              for="quickSettingSwitch1"
+                              htmlFor="quickSettingSwitch1"
                             >
                               &nbsp;
                             </label>
@@ -386,11 +386,11 @@ function App(props) {
                               type="checkbox"
                               className="custom-control-input"
                               id="quickSettingSwitch2"
-                              checked=""
+                              defaultChecked=""
                             />
                             <label
                               className="custom-control-label"
-                              for="quickSettingSwitch2"
+                              htmlFor="quickSettingSwitch2"
                             >
                               &nbsp;
                             </label>
@@ -407,11 +407,11 @@ function App(props) {
                               type="checkbox"
                               className="custom-control-input"
                               id="quickSettingSwitch3"
-                              checked=""
+                              defaultChecked=""
                             />
                             <label
                               className="custom-control-label"
-                              for="quickSettingSwitch3"
+                              htmlFor="quickSettingSwitch3"
                             >
                               &nbsp;
                             </label>
@@ -428,11 +428,11 @@ function App(props) {
                               type="checkbox"
                               className="custom-control-input"
                               id="quickSettingSwitch4"
-                              checked=""
+                              defaultChecked=""
                             />
                             <label
                               className="custom-control-label"
-                              for="quickSettingSwitch4"
+                              htmlFor="quickSettingSwitch4"
                             >
                               &nbsp;
                             </label>
@@ -449,11 +449,11 @@ function App(props) {
                               type="checkbox"
                               className="custom-control-input"
                               id="quickSettingSwitch5"
-                              checked=""
+                              defaultChecked=""
                             />
                             <label
                               className="custom-control-label"
-                              for="quickSettingSwitch5"
+                              htmlFor="quickSettingSwitch5"
                             >
                               &nbsp;
                             </label>
@@ -473,7 +473,7 @@ function App(props) {
                             />
                             <label
                               className="custom-control-label"
-                              for="quickSettingSwitch6"
+                              htmlFor="quickSettingSwitch6"
                             >
                               &nbsp;
                             </label>
@@ -494,9 +494,9 @@ function App(props) {
                         stroke="currentColor"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
                         ></path>
                       </svg>
@@ -515,7 +515,7 @@ function App(props) {
       <div
         className="modal modal-lg-fullscreen fade"
         id="startConversation"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="startConversationLabel"
         aria-hidden="true"
@@ -557,9 +557,9 @@ function App(props) {
                             stroke="currentColor"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                             />
                           </svg>
@@ -668,7 +668,7 @@ function App(props) {
       <div
         className="modal modal-lg-fullscreen fade"
         id="inviteOthers"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="inviteOthersLabel"
         aria-hidden="true"
@@ -694,19 +694,19 @@ function App(props) {
                 <div className="row">
                   <div className="col-12">
                     <div className="form-group">
-                      <label for="inviteEmailAddress">Email address</label>
+                      <label htmlFor="inviteEmailAddress">Email address</label>
                       <input
                         type="email"
                         className="form-control form-control-md"
                         id="inviteEmailAddress"
                         placeholder="Type email address here"
-                        value=""
+                        // value=""
                       />
                     </div>
                   </div>
                   <div className="col-12">
                     <div className="form-group">
-                      <label for="inviteMessage">Invitation message</label>
+                      <label htmlFor="inviteMessage">Invitation message</label>
                       <textarea
                         className="form-control form-control-md no-resize hide-scrollbar"
                         id="inviteMessage"
@@ -737,7 +737,7 @@ function App(props) {
       <div
         className="modal modal-lg-fullscreen fade"
         id="notificationModal"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="notificationModalLabel"
         aria-hidden="true"
@@ -771,9 +771,9 @@ function App(props) {
                             stroke="currentColor"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
                             />
                           </svg>
@@ -811,9 +811,9 @@ function App(props) {
                             stroke="currentColor"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
@@ -840,9 +840,9 @@ function App(props) {
                             stroke="currentColor"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                             />
                           </svg>
@@ -868,9 +868,9 @@ function App(props) {
                             stroke="currentColor"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                             />
                           </svg>
@@ -897,9 +897,9 @@ function App(props) {
                             stroke="currentColor"
                           >
                             <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
                               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                             />
                           </svg>
@@ -931,7 +931,7 @@ function App(props) {
       <div
         className="modal modal-lg-fullscreen fade"
         id="addNoteModal"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="addNoteModalLabel"
         aria-hidden="true"
@@ -954,19 +954,19 @@ function App(props) {
             <div className="modal-body">
               <form>
                 <div className="form-group">
-                  <label for="addNoteName" className="col-form-label">
+                  <label htmlFor="addNoteName" className="col-form-label">
                     Note title:
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="addNoteName"
-                    value=""
+                    // value=""
                     placeholder="Add note title here"
                   />
                 </div>
                 <div className="form-group">
-                  <label for="addNoteDetails" className="col-form-label">
+                  <label htmlFor="addNoteDetails" className="col-form-label">
                     Note details:
                   </label>
                   <textarea
@@ -979,7 +979,7 @@ function App(props) {
                 <div className="form-group">
                   <label className="col-form-label">Note tag:</label>
                   <select className="custom-select font-size-sm shadow-none">
-                    <option selected>Personal</option>
+                    <option defaultValue={0}>Personal</option>
                     <option value="1">Important</option>
                     <option value="2">Work</option>
                     <option value="3">Favourite</option>
@@ -1006,7 +1006,7 @@ function App(props) {
       <div
         className="modal modal-lg-fullscreen fade"
         id="taskModal"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="taskModalLabel"
         aria-hidden="true"
@@ -1029,19 +1029,19 @@ function App(props) {
             <div className="modal-body">
               <form>
                 <div className="form-group">
-                  <label for="editTaskName" className="col-form-label">
+                  <label htmlFor="editTaskName" className="col-form-label">
                     Task name:
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="editTaskName"
-                    value="Dinner with friends"
+                    // value="Dinner with friends"
                     placeholder="Add task name here"
                   />
                 </div>
                 <div className="form-group">
-                  <label for="editTaskDetails" className="col-form-label">
+                  <label htmlFor="editTaskDetails" className="col-form-label">
                     Task details:
                   </label>
                   <textarea
@@ -1049,12 +1049,10 @@ function App(props) {
                     id="editTaskDetails"
                     rows="4"
                     placeholder="Add task descriptions"
-                  >
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Omnis temporibus vel, molestiae nobis dolor aut sapiente.
-                    Vero possimus molestias consequatur quod, quo rem autem
-                    molestiae, accusantium nemo culpa eos doloremque?
-                  </textarea>
+                    defaultValue={
+                      "Lorem ipsum dolor sit, amet consectetur adipisicing elit."
+                    }
+                  ></textarea>
                 </div>
               </form>
             </div>
@@ -1080,7 +1078,7 @@ function App(props) {
       <div
         className="modal modal-lg-fullscreen fade"
         id="addTaskModal"
-        tabindex="-1"
+        tabIndex="-1"
         role="dialog"
         aria-labelledby="addTaskModalLabel"
         aria-hidden="true"
@@ -1103,19 +1101,19 @@ function App(props) {
             <div className="modal-body">
               <form>
                 <div className="form-group">
-                  <label for="addTaskName" className="col-form-label">
+                  <label htmlFor="addTaskName" className="col-form-label">
                     Task name:
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="addTaskName"
-                    value=""
+                    // value=""
                     placeholder="Add task name here"
                   />
                 </div>
                 <div className="form-group">
-                  <label for="addTaskDetails" className="col-form-label">
+                  <label htmlFor="addTaskDetails" className="col-form-label">
                     Task details:
                   </label>
                   <textarea

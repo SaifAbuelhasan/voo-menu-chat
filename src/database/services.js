@@ -29,9 +29,9 @@ export const printDate = (date) => {
   return dateObj.toLocaleDateString();
 };
 
-export const getTime = (message) => {
+export const getTime = (seconds) => {
   //   get date from time stamp
-  const date = new Date(message.time.seconds * 1000);
+  const date = new Date(seconds * 1000);
 
   //   print 12 hrs format
   const hours = date.getHours();

@@ -1,22 +1,23 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
+import { setActiveChat } from "../../actions/activeChat";
 import { getTime } from "../../database/services";
 
 const Contact = (props) => {
-  const {
-    chat /* , handleClick, lastMessage, unseenMessages, activeCustomer */,
-  } = props;
+  const { chat } = props;
   let isActive = "";
 
-  if (props.activeCustomer) {
-    isActive = chat.id === props.activeCustomer.id ? "active" : "";
-  }
+  isActive = chat.id === props.activeChat.id ? "active" : "";
+  // useEffect(() => {
+  //   console.log(chat);
+  // }, [chat]);
   return (
     <li
       className={`contacts-item friends ${isActive}`}
-      // onClick={() => handleClick(chat)}
+      onClick={() => props.dispatch(setActiveChat(chat))}
     >
-      <a className="contacts-link" href="javascript:;">
+      <a className="contacts-link">
         <div className="avatar avatar-online">
           <img
             src={`../../assets/media/avatar/${chat.userInfo.avatar}.png`}
@@ -26,9 +27,9 @@ const Contact = (props) => {
         <div className="contacts-content">
           <div className="contacts-info">
             <h6 className="chat-name text-truncate">{chat.userInfo.name}</h6>
-            {/* <div className="chat-time">
-              {lastMessage ? getTime(lastMessage) : ""}
-            </div> */}
+            <div className="chat-time">
+              {chat.lastMessageText ? getTime(chat.date.seconds) : ""}
+            </div>
           </div>
           <div className="contacts-texts">
             <p className="text-truncate">
@@ -52,26 +53,9 @@ const Contact = (props) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { chat } = props;
-  // get contact messages from state
-  let lastMessage = "";
-  const contactMessages = state.messages[chat.id];
-  let unseenMessages = 0;
-  if (contactMessages) {
-    lastMessage = contactMessages[contactMessages.length - 1];
-    // get number of unseen messages
-    unseenMessages = contactMessages.reduce((acc, message) => {
-      if (message.direction === false && message.seen === false) {
-        acc += 1;
-      }
-      return acc;
-    }, 0);
-    return {
-      activeCustomer: state.activeCustomer,
-      lastMessage,
-      unseenMessages,
-    };
-  }
+  return {
+    activeChat: state.activeChat,
+  };
 };
 
 export default connect(mapStateToProps)(Contact);

@@ -9,23 +9,21 @@ import reducer from "./reducers";
 import middleware from "./middleware";
 import logger from "./middleware/logger";
 
-// configure store with preloaded state
-// const store = configureStore({
-//   reducer,
-//   preloadedState: {
-//     authedUser: null,
-//     activeCustomer: {
-//       id: null,
-//       name: null,
-//       avatar: null,
-//     },
-//   },
-// });
-
-// console.log(store.getState());
-// const store = configureStore({ reducer, middleware });
+const initialState = {
+  authedUser: null,
+  activeChat: {
+    id: null,
+    userInfo: null,
+    lastMessageText: null,
+    date: null,
+  },
+};
 // redux configure store with reducer and middleware
-const store = configureStore({ reducer, middleware: [logger] });
+const store = configureStore({
+  reducer,
+  middleware: [logger],
+  preloadedState: initialState,
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
