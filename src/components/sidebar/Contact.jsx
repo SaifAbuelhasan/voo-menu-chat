@@ -3,51 +3,47 @@ import { connect } from "react-redux";
 import { getTime } from "../../database/services";
 
 const Contact = (props) => {
-  const { customer, handleClick, lastMessage, unseenMessages, activeCustomer } =
-    props;
+  const {
+    chat /* , handleClick, lastMessage, unseenMessages, activeCustomer */,
+  } = props;
   let isActive = "";
 
-  console.log(
-    `unseenMessages: ${props.unseenMessages} customer id: ${customer.id}`
-  );
   if (props.activeCustomer) {
-    isActive = customer.id === props.activeCustomer.id ? "active" : "";
+    isActive = chat.id === props.activeCustomer.id ? "active" : "";
   }
   return (
     <li
-      className={`contacts-item friends ${isActive} ${
-        unseenMessages > 0 ? "unread" : ""
-      }`}
-      onClick={() => handleClick(customer)}
+      className={`contacts-item friends ${isActive}`}
+      // onClick={() => handleClick(chat)}
     >
       <a className="contacts-link" href="javascript:;">
         <div className="avatar avatar-online">
           <img
-            src={`../../assets/media/avatar/${customer.avatar}.png`}
+            src={`../../assets/media/avatar/${chat.userInfo.avatar}.png`}
             alt=""
           />
         </div>
         <div className="contacts-content">
           <div className="contacts-info">
-            <h6 className="chat-name text-truncate">{customer.name}</h6>
-            <div className="chat-time">
+            <h6 className="chat-name text-truncate">{chat.userInfo.name}</h6>
+            {/* <div className="chat-time">
               {lastMessage ? getTime(lastMessage) : ""}
-            </div>
+            </div> */}
           </div>
           <div className="contacts-texts">
             <p className="text-truncate">
-              {lastMessage ? lastMessage.message : "No messages"}
+              {chat.lastMessageText ? chat.lastMessageText : "No messages"}
             </p>
-            {
+            {/* {
               // show number of unseen messages
               unseenMessages > 0 &&
               (!props.activeCustomer ||
-                customer.id !== props.activeCustomer.id) ? (
+                chat.id !== props.activeCustomer.id) ? (
                 <div class="badge badge-rounded badge-primary ml-1">
                   {unseenMessages}
                 </div>
               ) : null
-            }
+            } */}
           </div>
         </div>
       </a>
@@ -56,10 +52,10 @@ const Contact = (props) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { customer } = props;
+  const { chat } = props;
   // get contact messages from state
   let lastMessage = "";
-  const contactMessages = state.messages[customer.id];
+  const contactMessages = state.messages[chat.id];
   let unseenMessages = 0;
   if (contactMessages) {
     lastMessage = contactMessages[contactMessages.length - 1];

@@ -1,6 +1,13 @@
 import { useState, useReducer, useEffect } from "react";
 import firestore from "../../database/index";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  getDocs,
+  QuerySnapshot,
+} from "firebase/firestore";
 import { connect } from "react-redux";
 import {
   setActiveCustomer,
@@ -8,32 +15,14 @@ import {
 } from "../../actions/activeCustomer";
 import Contact from "./Contact";
 
-const customersCollection = collection(
-  firestore,
-  `/chats/10/branches/20/customers`
-);
-
-/**
- * get messages from firestore
- * @param {string} message - message to be set
- * @return {void}
- */
-const getCustomers = (callback) => {
-  return onSnapshot(query(customersCollection), (querySnapshot) => {
-    const customers = [];
-    querySnapshot.forEach((doc) => {
-      customers.push({ ...doc.data(), id: doc.id });
-    });
-    callback(customers);
-  });
-};
-
 const ContactList = (props) => {
   //   const [state, dispatch] = useReducer(reducer, initialState);
-  const [customers, setCustomers] = useState([]);
+  const [chats, setChats] = useState({});
 
   useEffect(() => {
-    const unsubscribe = getCustomers(setCustomers);
+    const unsubscribe = onSnapshot(doc(firestore, "userChats", "10"), (doc) => {
+      setChats(doc.data());
+    });
     return unsubscribe;
   }, []);
 
@@ -44,21 +33,9 @@ const ContactList = (props) => {
   const changeActiveCustomer = (customer) => {
     props.dispatch(setActiveCustomer(customer));
   };
-  // props.dispatch({
-  //   type: "SET_ACTIVE_CUSTOMER",
-  //   customer_id,
-  // });
-
-  // onSnapshot(customersCollection, (querySnapshot) => {
-  //   const data = [];
-  //   querySnapshot.forEach((doc) => {
-  //     data.push({ ...doc.data(), id: doc.id });
-  //   });
-  //   setCustomers(data);
-  // });
   return (
     <ul className="contacts-list" id="chatContactTab" data-chat-list="">
-      {customers.map((customer) => {
+      {/* {customers.map((customer) => {
         return (
           <Contact
             key={customer.id}
@@ -66,7 +43,18 @@ const ContactList = (props) => {
             handleClick={changeActiveCustomer}
           />
         );
-      })}
+      })} */}
+      {Object.entries(chats)
+        ?.sort((a, b) => b[1].date - a[1].date)
+        .map(([key, value]) => {
+          return (
+            <Contact
+              key={key}
+              chat={value}
+              handleClick={changeActiveCustomer}
+            />
+          );
+        })}
     </ul>
   );
 };
