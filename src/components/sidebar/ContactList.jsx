@@ -1,13 +1,6 @@
 import { useState, useReducer, useEffect } from "react";
 import firestore from "../../database/index";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  getDocs,
-  QuerySnapshot,
-} from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { connect } from "react-redux";
 import {
   setActiveCustomer,
@@ -23,7 +16,6 @@ const ContactList = (props) => {
     const unsubscribe = onSnapshot(doc(firestore, "userChats", "10"), (doc) => {
       setChats(doc.data());
     });
-    // console.log(chats);
     return unsubscribe;
   }, []);
 

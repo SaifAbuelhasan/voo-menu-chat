@@ -1,4 +1,4 @@
-import { LOAD_CHAT_MESSAGES } from "../actions/messages";
+import { LOAD_CHAT_MESSAGES } from "../actions/messages.js";
 
 export default function messages(state = {}, action) {
   switch (action.type) {

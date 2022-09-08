@@ -1,4 +1,4 @@
-import firestore from "../../database/index";
+import firestore from "../../database/index.js";
 import {
   arrayUnion,
   doc,
@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { sendMessage } from "../../database/services";
 
 const ChatFooter = (props) => {
   const [message, setMessage] = useState("");

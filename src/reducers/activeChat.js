@@ -1,4 +1,4 @@
-import { SET_ACTIVE_CHAT } from "../actions/activeChat";
+import { SET_ACTIVE_CHAT } from "../actions/activeChat.js";
 
 export default function activeChat(state = null, action) {
   switch (action.type) {

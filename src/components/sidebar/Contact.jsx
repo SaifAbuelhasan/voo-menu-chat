@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useState } from "react";
 import { connect } from "react-redux";
 import { setActiveChat } from "../../actions/activeChat";
 import { getTime } from "../../database/services";
@@ -9,9 +7,7 @@ const Contact = (props) => {
   let isActive = "";
 
   isActive = chat.id === props.activeChat.id ? "active" : "";
-  // useEffect(() => {
-  //   console.log(chat);
-  // }, [chat]);
+
   return (
     <li
       className={`contacts-item friends ${isActive}`}

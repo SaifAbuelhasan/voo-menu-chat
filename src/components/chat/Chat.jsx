@@ -32,6 +32,9 @@ const Chat = (props) => {
     }
   };
 
+  // scroll to bottom on mount
+  useEffect(() => scrollToBottom, [messages]);
+
   useEffect(scrollToBottom, [props.messages]);
 
   return (

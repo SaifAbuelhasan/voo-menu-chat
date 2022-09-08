@@ -1,4 +1,11 @@
-import { doc, serverTimestamp, setDoc, Timestamp } from "firebase/firestore";
+import {
+  doc,
+  serverTimestamp,
+  setDoc,
+  Timestamp,
+  updateDoc,
+  arrayUnion,
+} from "firebase/firestore";
 import firestore from "./index.js";
 
 // createShops
@@ -77,10 +84,29 @@ const createChats = async () => {
   });
 };
 
-const buildDB = async () => {
-  //   await createShops();
-  // await createUserChats();
-  await createChats();
+const sendClientMessage = async () => {
+  const chatId = "12";
+  const messageText = "last message text";
+  await updateDoc(doc(firestore, "Chats", chatId), {
+    messages: arrayUnion({
+      date: Timestamp.now(),
+      text: messageText,
+      employeeName: null,
+      direction: false,
+    }),
+  });
+
+  await updateDoc(doc(firestore, "userChats", "10"), {
+    [chatId + ".lastMessageText"]: messageText,
+    [chatId + ".date"]: Timestamp.now(),
+  });
 };
 
-buildDB();
+sendClientMessage();
+// const buildDB = async () => {
+//   //   await createShops();
+//   // await createUserChats();
+//   await createChats();
+// };
+
+// buildDB();

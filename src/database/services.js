@@ -8,7 +8,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import firestore from "./index";
+import firestore from "./index.js";
 
 export const getDate = (message) => {
   const date = new Date(message.time.seconds * 1000);
