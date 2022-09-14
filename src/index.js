@@ -17,6 +17,7 @@ const initialState = {
     lastMessageText: null,
     date: null,
   },
+  activeBranches: [],
 };
 // redux configure store with reducer and middleware
 const store = configureStore({

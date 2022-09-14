@@ -5,12 +5,17 @@ import { getTime } from "../../database/services";
 const Contact = (props) => {
   const { chat } = props;
   let isActive = "";
+  let unread = "";
 
   isActive = chat.id === props.activeChat.id ? "active" : "";
 
+  if (chat.unreadMessages > 0) {
+    unread = "unread";
+  }
+
   return (
     <li
-      className={`contacts-item friends ${isActive}`}
+      className={`contacts-item friends ${isActive} ${unread}`}
       onClick={() => props.dispatch(setActiveChat(chat))}
     >
       <a className="contacts-link">
@@ -31,16 +36,13 @@ const Contact = (props) => {
             <p className="text-truncate">
               {chat.lastMessageText ? chat.lastMessageText : "No messages"}
             </p>
-            {/* {
-              // show number of unseen messages
-              unseenMessages > 0 &&
-              (!props.activeCustomer ||
-                chat.id !== props.activeCustomer.id) ? (
-                <div class="badge badge-rounded badge-primary ml-1">
-                  {unseenMessages}
-                </div>
-              ) : null
-            } */}
+            {unread !== "" ? (
+              <div class="badge badge-rounded badge-primary ml-1">
+                {chat.unreadMessages}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </a>

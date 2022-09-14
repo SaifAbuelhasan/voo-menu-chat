@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SelectBranch from "./SelectBranch";
 const Header = (props) => {
   return (
     <div className="sidebar-header sticky-top p-2">
@@ -84,59 +85,7 @@ const Header = (props) => {
 
       <div className="sidebar-sub-header">
         <div className="dropdown mr-2">
-          <button
-            className="btn btn-outline-default dropdown-toggle"
-            type="button"
-            data-chat-filter-list=""
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            All Chats
-          </button>
-
-          <div className="dropdown-menu">
-            <a
-              className="dropdown-item"
-              data-chat-filter=""
-              data-select="all-chats"
-              href="#"
-            >
-              All Chats
-            </a>
-            <a
-              className="dropdown-item"
-              data-chat-filter=""
-              data-select="friends"
-              href="#"
-            >
-              Nasser city
-            </a>
-            <a
-              className="dropdown-item"
-              data-chat-filter=""
-              data-select="groups"
-              href="#"
-            >
-              New Cairo
-            </a>
-            <a
-              className="dropdown-item"
-              data-chat-filter=""
-              data-select="unread"
-              href="#"
-            >
-              Salam City
-            </a>
-            <a
-              className="dropdown-item"
-              data-chat-filter=""
-              data-select="archived"
-              href="#"
-            >
-              Nozha
-            </a>
-          </div>
+          <SelectBranch />
         </div>
 
         <form className="form-inline">

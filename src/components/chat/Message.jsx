@@ -7,12 +7,6 @@ const Message = (props) => {
   const time = getTime(message.date.seconds);
   const { avatar } = props.activeChat.userInfo;
 
-  // set messages to seen when they are displayed
-  // useEffect(() => {
-  //   if (message.direction === false && message.seen === false) {
-  //     changeMessageToSeen(message.id, props.activeCustomer.id);
-  //   }
-  // }, [message, props.activeCustomer]);
   return (
     <div className={`message ${isSelf}`}>
       <div className="message-wrapper">

@@ -2,10 +2,7 @@ import { useState, useReducer, useEffect } from "react";
 import firestore from "../../database/index";
 import { doc, onSnapshot } from "firebase/firestore";
 import { connect } from "react-redux";
-import {
-  setActiveCustomer,
-  SET_ACTIVE_CUSTOMER,
-} from "../../actions/activeCustomer";
+import { setActiveCustomer } from "../../actions/activeCustomer";
 import Contact from "./Contact";
 
 const ContactList = (props) => {
@@ -14,10 +11,22 @@ const ContactList = (props) => {
 
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(firestore, "userChats", "10"), (doc) => {
-      setChats(doc.data());
+      // create new object with fields whose branch id is in activeBranches
+      const newChats = {};
+      for (const [key, value] of Object.entries(doc.data())) {
+        if (
+          props.activeBranches.filter(
+            (branch) => branch.value === value.branchId
+          ).length > 0
+        ) {
+          newChats[key] = value;
+        }
+      }
+      setChats(newChats);
+      // setChats(doc.data());
     });
     return unsubscribe;
-  }, []);
+  }, [props.activeBranches]);
 
   /**
    * change the state of the activeCustomer
@@ -52,4 +61,10 @@ const ContactList = (props) => {
   );
 };
 
-export default connect()(ContactList);
+const mapStateToProps = (state, props) => {
+  return {
+    activeBranches: state.activeBranches,
+  };
+};
+
+export default connect(mapStateToProps)(ContactList);

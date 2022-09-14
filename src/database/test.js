@@ -5,6 +5,8 @@ import {
   Timestamp,
   updateDoc,
   arrayUnion,
+  increment,
+  // FieldValue,
 } from "firebase/firestore";
 import firestore from "./index.js";
 
@@ -16,6 +18,10 @@ const createShops = async () => {
     avatar: "1",
   });
   const branchesRef = doc(firestore, "shops", "10", "branches", "1");
+  const branchesRef1 = doc(firestore, "shops", "10", "branches", "3");
+  await setDoc(branchesRef1, {
+    name: "El-Maadi",
+  });
   return await setDoc(branchesRef, {
     name: "Nasr City",
   });
@@ -23,9 +29,25 @@ const createShops = async () => {
 
 // create a new userChats document
 const createUserChats = async () => {
-  const userChatsRef = doc(firestore, "userChats", "10");
-  return await setDoc(userChatsRef, {
+  const shopChatsRef = doc(firestore, "userChats", "10");
+  const customerChatsRef = doc(firestore, "userChats", "4");
+
+  await setDoc(shopChatsRef, {
+    14: {
+      branchId: "1",
+      lastMessageText: "testing",
+      date: serverTimestamp(),
+      userInfo: {
+        name: "Sasha",
+        avatar: "1",
+        id: "10",
+      },
+    },
+  });
+
+  return await setDoc(shopChatsRef, {
     12: {
+      branchId: "1",
       lastMessageText: "last Message",
       date: serverTimestamp(),
       userInfo: {
@@ -35,12 +57,23 @@ const createUserChats = async () => {
       },
     },
     14: {
+      branchId: "1",
       lastMessageText: "last Message",
       date: serverTimestamp(),
       userInfo: {
         name: "Jane Doe",
         avatar: "5",
         id: "4",
+      },
+    },
+    32: {
+      branchId: "3",
+      lastMessageText: "last message in branch 3",
+      date: serverTimestamp(),
+      userInfo: {
+        name: "John Doe",
+        avatar: "4",
+        id: "2",
       },
     },
   });
@@ -66,6 +99,26 @@ const createChats = async () => {
   });
 
   const chatRef1 = doc(firestore, "Chats", "12");
+
+  const chatRef2 = doc(firestore, "Chats", "32");
+
+  await setDoc(chatRef2, {
+    messages: [
+      {
+        direction: true,
+        text: "Hello",
+        date: Timestamp.now(),
+        employeeName: "Sasha",
+      },
+      {
+        direction: false,
+        text: "last Message",
+        date: Timestamp.now(),
+        employeeName: null,
+      },
+    ],
+  });
+
   return await setDoc(chatRef1, {
     messages: [
       {
@@ -85,8 +138,8 @@ const createChats = async () => {
 };
 
 const sendClientMessage = async () => {
-  const chatId = "12";
-  const messageText = "last message text";
+  const chatId = "14";
+  const messageText = "testing testing testing";
   await updateDoc(doc(firestore, "Chats", chatId), {
     messages: arrayUnion({
       date: Timestamp.now(),
@@ -99,13 +152,15 @@ const sendClientMessage = async () => {
   await updateDoc(doc(firestore, "userChats", "10"), {
     [chatId + ".lastMessageText"]: messageText,
     [chatId + ".date"]: Timestamp.now(),
+    // increment unread messages
+    [chatId + ".unreadMessages"]: increment(1),
   });
 };
 
 sendClientMessage();
 // const buildDB = async () => {
-//   //   await createShops();
-//   // await createUserChats();
+//   // await createShops();
+//   await createUserChats();
 //   await createChats();
 // };
 

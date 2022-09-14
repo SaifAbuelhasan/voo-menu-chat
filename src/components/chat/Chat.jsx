@@ -4,7 +4,7 @@ import Message from "./Message";
 import ChatFooter from "./ChatFooter";
 import { loadChatMessages } from "../../actions/messages";
 import { getDate, messagesListener, printDate } from "../../database/services";
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, updateDoc } from "firebase/firestore";
 import firestore from "../../database/index";
 
 const Chat = (props) => {
@@ -20,6 +20,7 @@ const Chat = (props) => {
           doc.exists() && setMessages(doc.data().messages);
         }
       );
+
       return unsubscribe;
     }
     return undefined;
@@ -35,8 +36,14 @@ const Chat = (props) => {
   // scroll to bottom on mount
   useEffect(() => scrollToBottom, [messages]);
 
-  useEffect(scrollToBottom, [props.messages]);
-
+  // set active chat's unread messages to 0
+  useEffect(() => {
+    if (activeChat.id) {
+      updateDoc(doc(firestore, "userChats", "10"), {
+        [activeChat.id + ".unreadMessages"]: 0,
+      });
+    }
+  }, [messages]);
   return (
     <div className="chats">
       {activeChat.id ? (
