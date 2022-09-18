@@ -22,7 +22,7 @@ const ChatFooter = (props) => {
       }),
     });
 
-    await updateDoc(doc(firestore, "userChats", "10"), {
+    await updateDoc(doc(firestore, "userChats", `${props.authedUser.ShopId}`), {
       [props.activeChat.id + ".lastMessageText"]: text,
       [props.activeChat.id + ".date"]: Timestamp.now(),
     });
@@ -196,6 +196,7 @@ const mapStateToProps = (state) => {
   return {
     activeCustomer: state.activeCustomer,
     activeChat: state.activeChat,
+    authedUser: state.authedUser,
   };
 };
 

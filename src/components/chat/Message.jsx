@@ -1,5 +1,6 @@
 import { connect } from "react-redux";
 import { getTime } from "../../database/services";
+import { domainURL } from "../../api/api";
 
 const Message = (props) => {
   const { message } = props;
@@ -16,7 +17,14 @@ const Message = (props) => {
       </div>
       <div className="message-options">
         <div className="avatar avatar-sm">
-          <img alt="" src={`../../assets/media/avatar/${avatar}.png`} />
+          {isSelf ? (
+            <img
+              alt=""
+              src={`${domainURL}/${props.authedUser.EmployeeImage}`}
+            />
+          ) : (
+            <img alt="" src={`../../assets/media/avatar/${avatar}.png`} />
+          )}
         </div>
         <span className="message-date">{time}</span>
         <div className="dropdown">
@@ -141,6 +149,7 @@ const Message = (props) => {
 const mapStateToProps = (state) => {
   return {
     activeChat: state.activeChat,
+    authedUser: state.authedUser,
   };
 };
 

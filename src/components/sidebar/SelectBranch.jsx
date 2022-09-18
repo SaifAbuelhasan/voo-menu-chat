@@ -3,6 +3,7 @@ import { MultiSelect } from "react-multi-select-component";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { setActiveBranches } from "../../actions/activeBranches";
+import { getBranches } from "../../api/api";
 import { collection, getDocs } from "firebase/firestore";
 import firestore from "../../database/index";
 
@@ -12,7 +13,7 @@ const SelectBranch = (props) => {
 
   const getOptions = (branches) => {
     return branches.map((branch) => {
-      return { label: branch.name, value: branch.id };
+      return { label: branch.Name, value: `${branch.Id}` };
     });
   };
 
@@ -21,19 +22,21 @@ const SelectBranch = (props) => {
     props.dispatch(setActiveBranches(data));
   };
   useEffect(() => {
-    async function getBranches() {
-      const querySnapshot = await getDocs(
-        collection(firestore, "shops/10/branches")
-      );
-      const data = [];
-      querySnapshot.forEach((doc) => {
-        data.push({ ...doc.data(), id: doc.id });
-      });
+    async function loadBranches() {
+      // const querySnapshot = await getDocs(
+      //   collection(firestore, "shops/10/branches")
+      // );
+      // const data = [];
+      // querySnapshot.forEach((doc) => {
+      //   data.push({ ...doc.data(), id: doc.id });
+      // });
+      const data = await getBranches(props.authedUser.ShopUserId);
+      console.log(data);
       setBranches(data);
       setSelectedBranch(getOptions(data));
       props.dispatch(setActiveBranches(getOptions(data)));
     }
-    getBranches();
+    loadBranches();
   }, []);
 
   //   const options = branches.map((branch) => {
@@ -51,4 +54,10 @@ const SelectBranch = (props) => {
   );
 };
 
-export default connect()(SelectBranch);
+const mapStateToProps = (state, props) => {
+  return {
+    authedUser: state.authedUser,
+  };
+};
+
+export default connect(mapStateToProps)(SelectBranch);

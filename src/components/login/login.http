@@ -1,0 +1,8 @@
+POST http://api4-1-7.vooodelivery.com/api/Accounts/CallCenterEmpLogin
+content-type: application/json
+
+{
+"Username":"01019413412",
+"Password":"lol123456789*"
+}
+

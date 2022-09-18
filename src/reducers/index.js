@@ -7,8 +7,6 @@ import messages from "./messages.js";
 
 export default combineReducers({
   authedUser,
-  activeCustomer,
-  messages,
   activeChat,
   activeBranches,
 });

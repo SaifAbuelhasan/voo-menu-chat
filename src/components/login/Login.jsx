@@ -1,5 +1,39 @@
 import { useState } from "react";
+import { connect } from "react-redux";
+import { setAuthedUser } from "../../actions/authedUser";
+import axios from "axios";
+import { login } from "../../api/api";
+
+// // login request function
+// const login = async (username, password) => {
+//   const response = await axios.post(
+//     "http://api4-1-7.vooodelivery.com/api/Accounts/CallCenterEmpLogin",
+//     {
+//       Username: "01019413412",
+//       Password: "lol123456789*",
+//     }
+//   );
+//   console.log(response.status);
+//   return response;
+// };
+
 const Login = (props) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const user = await login(username, password);
+
+      props.dispatch(setAuthedUser(user));
+    } catch (error) {
+      setError("Invalid username or password");
+      console.log(`error ${error}`);
+    }
+  };
   return (
     <div class="main-layout card-bg-1">
       <div class="container d-flex flex-column">
@@ -13,16 +47,19 @@ const Login = (props) => {
               Sign in to <span class="primary-color"> vooo </span> chat
             </h1>
             <p class="text-dark mb-3">Please login to vooo menu chat</p>
-            <form class="mb-3">
+            <p class="text-danger mb-3">{error}</p>
+            <form class="mb-3" onSubmit={handleSubmit}>
               <div class="form-group">
                 <label for="email" class="sr-only">
-                  Email Address
+                  Username
                 </label>
                 <input
-                  type="email"
+                  type="text"
                   class="form-control form-control-md"
                   id="email"
                   placeholder="Enter your email"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
               <div class="form-group">
@@ -34,6 +71,8 @@ const Login = (props) => {
                   class="form-control form-control-md"
                   id="password"
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div class="form-group d-flex justify-content-between">
@@ -55,13 +94,13 @@ const Login = (props) => {
                   Reset password
                 </a>
               </div>
-              <a
+              <button
                 href="chat-1.html"
                 class="btn btn-primary btn-lg btn-block text-uppercase font-weight-semibold"
                 type="submit"
               >
                 Sign in
-              </a>
+              </button>
             </form>
           </div>
         </div>
@@ -70,4 +109,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default connect()(Login);
