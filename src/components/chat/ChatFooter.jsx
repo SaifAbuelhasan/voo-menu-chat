@@ -19,7 +19,7 @@ const ChatFooter = (props) => {
     const message = {
       text: text,
       sentByShop: true,
-      date: { seconds: Date.now() / 1000, nanoseconds: Date.now() },
+      date: { seconds: Date.now() / 1000, milliseconds: Date.now() },
     };
     updateDoc(doc(firestore, "chatData", props.activeChat.id), {
       lastMessage: message,
