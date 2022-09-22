@@ -4,19 +4,6 @@ import { setAuthedUser } from "../../actions/authedUser";
 import axios from "axios";
 import { login } from "../../api/api";
 
-// // login request function
-// const login = async (username, password) => {
-//   const response = await axios.post(
-//     "http://api4-1-7.vooodelivery.com/api/Accounts/CallCenterEmpLogin",
-//     {
-//       Username: "01019413412",
-//       Password: "lol123456789*",
-//     }
-//   );
-//   console.log(response.status);
-//   return response;
-// };
-
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

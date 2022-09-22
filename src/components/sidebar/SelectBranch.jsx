@@ -19,29 +19,21 @@ const SelectBranch = (props) => {
 
   const selectBranch = (data) => {
     setSelectedBranch(data);
-    props.dispatch(setActiveBranches(data));
+    props.dispatch(
+      setActiveBranches({
+        allBranches: data.length === branches.length,
+        branches: data.map((branch) => branch.value),
+      })
+    );
   };
   useEffect(() => {
     async function loadBranches() {
-      // const querySnapshot = await getDocs(
-      //   collection(firestore, "shops/10/branches")
-      // );
-      // const data = [];
-      // querySnapshot.forEach((doc) => {
-      //   data.push({ ...doc.data(), id: doc.id });
-      // });
       const data = await getBranches(props.authedUser.ShopUserId);
-      console.log(data);
       setBranches(data);
-      setSelectedBranch(getOptions(data));
-      props.dispatch(setActiveBranches(getOptions(data)));
     }
     loadBranches();
   }, []);
 
-  //   const options = branches.map((branch) => {
-  //     return { label: branch.name, value: branch.id };
-  //   });
   return (
     <>
       <MultiSelect

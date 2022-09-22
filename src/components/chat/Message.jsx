@@ -4,9 +4,9 @@ import { domainURL } from "../../api/api";
 
 const Message = (props) => {
   const { message } = props;
-  const isSelf = message.direction ? "self" : "";
+  const isSelf = message.sentByShop ? "self" : "";
   const time = getTime(message.date.seconds);
-  const { avatar } = props.activeChat.userInfo;
+  const { avatar } = props.activeChat.customerData;
 
   return (
     <div className={`message ${isSelf}`}>
@@ -20,7 +20,8 @@ const Message = (props) => {
           {isSelf ? (
             <img
               alt=""
-              src={`${domainURL}/${props.authedUser.EmployeeImage}`}
+              // src={`${domainURL}/${props.authedUser.EmployeeImage}`}
+              src={`../../assets/media/avatar/3.png`}
             />
           ) : (
             <img alt="" src={`../../assets/media/avatar/${avatar}.png`} />

@@ -4,12 +4,14 @@ import { getTime } from "../../database/services";
 
 const Contact = (props) => {
   const { chat } = props;
+  const { customerData, lastMessage, shopData } = chat;
+  const unreadMessages = shopData.unreadMessages;
   let isActive = "";
   let unread = "";
 
   isActive = chat.id === props.activeChat.id ? "active" : "";
 
-  if (chat.unreadMessages > 0) {
+  if (unreadMessages > 0) {
     unread = "unread";
   }
 
@@ -21,24 +23,24 @@ const Contact = (props) => {
       <a className="contacts-link">
         <div className="avatar avatar-online">
           <img
-            src={`../../assets/media/avatar/${chat.userInfo.avatar}.png`}
+            src={`../../assets/media/avatar/${customerData.avatar}.png`}
             alt=""
           />
         </div>
         <div className="contacts-content">
           <div className="contacts-info">
-            <h6 className="chat-name text-truncate">{chat.userInfo.name}</h6>
+            <h6 className="chat-name text-truncate">{customerData.name}</h6>
             <div className="chat-time">
-              {chat.lastMessageText ? getTime(chat.date.seconds) : ""}
+              {lastMessage.date ? getTime(lastMessage.date.seconds) : ""}
             </div>
           </div>
           <div className="contacts-texts">
             <p className="text-truncate">
-              {chat.lastMessageText ? chat.lastMessageText : "No messages"}
+              {lastMessage ? lastMessage.text : "No messages"}
             </p>
             {unread !== "" ? (
               <div class="badge badge-rounded badge-primary ml-1">
-                {chat.unreadMessages}
+                {unreadMessages}
               </div>
             ) : (
               ""

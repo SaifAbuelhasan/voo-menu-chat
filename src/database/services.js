@@ -10,8 +10,8 @@ import {
 } from "firebase/firestore";
 import firestore from "./index.js";
 
-export const getDate = (message) => {
-  const date = new Date(message.time.seconds * 1000);
+export const getDate = (seconds) => {
+  const date = new Date(seconds * 1000);
   return date.toLocaleDateString();
 };
 

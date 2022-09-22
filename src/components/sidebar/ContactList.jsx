@@ -1,36 +1,52 @@
-import { useState, useReducer, useEffect } from "react";
+import { useState, useEffect } from "react";
 import firestore from "../../database/index";
-import { doc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import { connect } from "react-redux";
 import { setActiveCustomer } from "../../actions/activeCustomer";
 import Contact from "./Contact";
 
 const ContactList = (props) => {
   //   const [state, dispatch] = useReducer(reducer, initialState);
-  const [chats, setChats] = useState({});
+  const [chats, setChats] = useState([]);
   // convert shopId to string
   const shopId = props.authedUser.ShopId.toString();
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      doc(firestore, "userChats", shopId),
-      (doc) => {
-        // create new object with fields whose branch id is in activeBranches
-        const newChats = {};
-        for (const [key, value] of Object.entries(doc.data())) {
-          console.log(key, value);
-          if (
-            props.activeBranches.filter(
-              (branch) => branch.value === value.branchId
-            ).length > 0
-          ) {
-            newChats[key] = value;
-          }
-        }
-        setChats(newChats);
-        // setChats(doc.data());
-      }
-    );
+    if (props.activeBranches.branches.length < 1) {
+      setChats([]);
+      return;
+    }
+    // listen to all chats with shopId
+    let collectionQuery;
+    if (props.activeBranches.allBranches) {
+      collectionQuery = query(
+        collection(firestore, "chatData"),
+        where("shopId", "==", shopId),
+        orderBy("lastMessage.date", "desc")
+      );
+    }
+    // listen to chats with shopId and branchId
+    else {
+      collectionQuery = query(
+        collection(firestore, "chatData"),
+        where("branchId", "in", props.activeBranches.branches),
+        orderBy("lastMessage.date", "desc")
+      );
+    }
+    const unsubscribe = onSnapshot(collectionQuery, (querySnapshot) => {
+      const newChats = [];
+      querySnapshot.forEach((doc) => {
+        newChats.push({ ...doc.data(), id: doc.id });
+      });
+      setChats(newChats);
+    });
     return unsubscribe;
   }, [props.activeBranches]);
 
@@ -43,17 +59,11 @@ const ContactList = (props) => {
   };
   return (
     <ul className="contacts-list" id="chatContactTab" data-chat-list="">
-      {Object.entries(chats)
-        ?.sort((a, b) => b[1].date - a[1].date)
-        .map(([key, value]) => {
-          return (
-            <Contact
-              key={key}
-              chat={{ ...value, id: key }}
-              handleClick={changeActiveCustomer}
-            />
-          );
-        })}
+      {chats.map((chat, idx) => {
+        return (
+          <Contact key={idx} chat={chat} handleClick={changeActiveCustomer} />
+        );
+      })}
     </ul>
   );
 };

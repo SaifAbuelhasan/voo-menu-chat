@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   doc,
   serverTimestamp,
@@ -5,140 +6,74 @@ import {
   Timestamp,
   updateDoc,
   arrayUnion,
+  collection,
+  addDoc,
   increment,
   // FieldValue,
 } from "firebase/firestore";
 import firestore from "./index.js";
 
-// createShops
-const createShops = async () => {
-  const shopsRef = doc(firestore, "shops", "10");
-  await setDoc(shopsRef, {
-    name: "KFC",
-    avatar: "1",
-  });
-  const branchesRef = doc(firestore, "shops", "10", "branches", "1");
-  const branchesRef1 = doc(firestore, "shops", "10", "branches", "3");
-  await setDoc(branchesRef1, {
-    name: "El-Maadi",
-  });
-  return await setDoc(branchesRef, {
-    name: "Nasr City",
-  });
-};
-
-// create a new userChats document
-const createUserChats = async () => {
-  const shopChatsRef = doc(firestore, "userChats", "8862");
-  // const customerChatsRef = doc(firestore, "userChats", "4");
-
-  return await setDoc(shopChatsRef, {
-    8862001: {
-      branchId: "3645",
-      lastMessageText: "testing",
-      date: serverTimestamp(),
-      userInfo: {
-        name: "Sasha",
-        avatar: "1",
-        id: "001",
-      },
+const createChatData = async (shopId, branchId, customerId) => {
+  const chatDataRef = doc(firestore, "chatData", `${branchId}${customerId}`);
+  const chatData = {
+    shopId,
+    branchId,
+    customerId,
+    customerData: {
+      name: "John Doe",
+      avatar: "3",
     },
-    8862002: {
-      branchId: "3645",
-      lastMessageText: "last message text",
-      date: serverTimestamp(),
-      userInfo: {
-        name: "Wanda",
-        avatar: "5",
-        id: "002",
-      },
+    shopData: {
+      name: "KFC",
+      avatar: "1",
     },
+  };
+  await setDoc(chatDataRef, chatData);
+};
+
+const sendMessageByCustomer = (branchId, customerId, message) => {
+  const chatDataRef = doc(firestore, "chatData", `${branchId}${customerId}`);
+  const messagesCollectionRef = collection(chatDataRef, "messages");
+  // add message to messages collection
+  addDoc(messagesCollectionRef, {
+    text: message,
+    date: { seconds: Date.now() / 1000, nanoseconds: Date.now() },
+    sentByShop: false,
+  });
+  // update lastMessage
+  updateDoc(chatDataRef, {
+    lastMessage: {
+      text: message,
+      date: { seconds: Date.now() / 1000, nanoseconds: Date.now() },
+    },
+    ["shopData.unreadMessages"]: increment(1),
   });
 };
 
-const createChats = async () => {
-  const chatRef = doc(firestore, "Chats", "8862001");
-  await setDoc(chatRef, {
-    messages: [
-      {
-        direction: true,
-        text: "Hello",
-        date: Timestamp.now(),
-        employeeName: "Sasha",
-      },
-      {
-        direction: false,
-        text: "testing",
-        date: Timestamp.now(),
-        employeeName: null,
-      },
-    ],
-  });
+const shopId = "6588";
+const branches = ["3139", "3215"];
+const customerId = "12345";
 
-  const chatRef1 = doc(firestore, "Chats", "8862002");
-
-  // const chatRef2 = doc(firestore, "Chats", "32");
-
-  // await setDoc(chatRef2, {
-  //   messages: [
-  //     {
-  //       direction: true,
-  //       text: "Hello",
-  //       date: Timestamp.now(),
-  //       employeeName: "Sasha",
-  //     },
-  //     {
-  //       direction: false,
-  //       text: "last Message",
-  //       date: Timestamp.now(),
-  //       employeeName: null,
-  //     },
-  //   ],
-  // });
-
-  return await setDoc(chatRef1, {
-    messages: [
-      {
-        direction: true,
-        text: "Hello",
-        date: Timestamp.now(),
-        employeeName: "Sasha",
-      },
-      {
-        direction: false,
-        text: "last message text",
-        date: Timestamp.now(),
-        employeeName: null,
-      },
-    ],
-  });
+const buildChat = async () => {
+  await createChatData(shopId, branches[1], customerId);
+  sendMessageByCustomer(branches[0], customerId, "Welcome");
+  sendMessageByCustomer(branches[1], customerId, "test");
 };
 
-const sendClientMessage = async () => {
-  const chatId = "14";
-  const messageText = "testing testing testing";
-  await updateDoc(doc(firestore, "Chats", chatId), {
-    messages: arrayUnion({
-      date: Timestamp.now(),
-      text: messageText,
-      employeeName: null,
-      direction: false,
-    }),
-  });
+sendMessageByCustomer(branches[1], customerId, "Test test");
 
-  await updateDoc(doc(firestore, "userChats", "10"), {
-    [chatId + ".lastMessageText"]: messageText,
-    [chatId + ".date"]: Timestamp.now(),
-    // increment unread messages
-    [chatId + ".unreadMessages"]: increment(1),
-  });
+// buildChat();
+
+const login = async (username, password) => {
+  const response = await axios.post(
+    `http://api4-1-7.vooodelivery.com/api/Accounts/CallCenterEmpLogin`,
+    {
+      username,
+      password,
+    }
+  );
+  return response.data;
 };
 
-sendClientMessage();
-const buildDB = async () => {
-  // await createShops();
-  await createUserChats();
-  await createChats();
-};
-
-buildDB();
+// const data = await login("01019413412", "lol123456789*");
+// console.log(data);

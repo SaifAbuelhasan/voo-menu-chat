@@ -5,6 +5,9 @@ import {
   Timestamp,
   updateDoc,
   serverTimestamp,
+  addDoc,
+  collection,
+  increment,
 } from "firebase/firestore";
 import { useState } from "react";
 import { connect } from "react-redux";
@@ -12,20 +15,21 @@ import { connect } from "react-redux";
 const ChatFooter = (props) => {
   const [message, setMessage] = useState("");
 
-  const handleSend = async (text) => {
-    await updateDoc(doc(firestore, "Chats", props.activeChat.id), {
-      messages: arrayUnion({
-        date: Timestamp.now(),
-        text: text,
-        employeeName: "Sasha",
-        direction: true,
-      }),
+  const handleSend = (text) => {
+    const message = {
+      text: text,
+      sentByShop: true,
+      date: { seconds: Date.now() / 1000, nanoseconds: Date.now() },
+    };
+    updateDoc(doc(firestore, "chatData", props.activeChat.id), {
+      lastMessage: message,
+      ["customerData.unreadMessages"]: increment(),
     });
 
-    await updateDoc(doc(firestore, "userChats", `${props.authedUser.ShopId}`), {
-      [props.activeChat.id + ".lastMessageText"]: text,
-      [props.activeChat.id + ".date"]: Timestamp.now(),
-    });
+    addDoc(
+      collection(firestore, "chatData", props.activeChat.id, "messages"),
+      message
+    );
   };
 
   return (

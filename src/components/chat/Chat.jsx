@@ -2,22 +2,51 @@ import { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import Message from "./Message";
 import ChatFooter from "./ChatFooter";
-import { loadChatMessages } from "../../actions/messages";
-import { getDate, messagesListener, printDate } from "../../database/services";
-import { doc, onSnapshot, updateDoc } from "firebase/firestore";
+import { getDate, printDate } from "../../database/services";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import firestore from "../../database/index";
 
 const Chat = (props) => {
   const [messages, setMessages] = useState([]);
 
   const { activeChat } = props;
-  const { name, avatar } = activeChat.userInfo ? activeChat.userInfo : {};
+  const { name, avatar } = activeChat.customerData
+    ? activeChat.customerData
+    : {};
+
+  const splitMessagesIntoDays = (messages) => {
+    return messages.reduce((acc, message) => {
+      const day = getDate(message.date.seconds);
+
+      if (!acc[day]) {
+        acc[day] = [];
+      }
+
+      acc[day].push(message);
+      return acc;
+    }, {});
+  };
+
   useEffect(() => {
     if (activeChat.id) {
       const unsubscribe = onSnapshot(
-        doc(firestore, "Chats", activeChat.id),
-        (doc) => {
-          doc.exists() && setMessages(doc.data().messages);
+        query(
+          collection(firestore, "chatData", activeChat.id, "messages"),
+          orderBy("date", "asc")
+        ),
+        (querySnapshot) => {
+          const newMessages = [];
+          querySnapshot.forEach((doc) => {
+            newMessages.push(doc.data());
+          });
+          setMessages(newMessages);
         }
       );
 
@@ -25,6 +54,16 @@ const Chat = (props) => {
     }
     return undefined;
   }, [activeChat.id]);
+
+  // set unread messages to 0
+  useEffect(() => {
+    if (activeChat.id) {
+      updateDoc(doc(firestore, "chatData", activeChat.id), {
+        ["shopData.unreadMessages"]: 0,
+      });
+    }
+  }, [activeChat]);
+
   // useRef to scroll to end of chat on new message
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
@@ -35,15 +74,6 @@ const Chat = (props) => {
 
   // scroll to bottom on mount
   useEffect(() => scrollToBottom, [messages]);
-
-  // set active chat's unread messages to 0
-  useEffect(() => {
-    if (activeChat.id) {
-      updateDoc(doc(firestore, "userChats", "10"), {
-        [activeChat.id + ".unreadMessages"]: 0,
-      });
-    }
-  }, [messages]);
   return (
     <div className="chats">
       {activeChat.id ? (
@@ -509,24 +539,28 @@ const Chat = (props) => {
 
           <div className="chat-content p-2" id="messageBody">
             <div className="container">
-              {/* {props.messageDays.map((messageDay, index) => {
-                return (
-                  <div class="message-day" key={index}>
-                    <div
-                      class="message-divider sticky-top pb-2"
-                      data-label={printDate(getDate(messageDay[0]))}
-                    >
-                      &nbsp;
+              {Object.entries(splitMessagesIntoDays(messages))?.map(
+                ([day, messages]) => {
+                  return (
+                    <div class="message-day" key={day}>
+                      <div
+                        class="message-divider sticky-top pb-2"
+                        data-label={printDate(
+                          getDate(messages[0].date.seconds)
+                        )}
+                      >
+                        &nbsp;
+                      </div>
+                      {messages.map((message, index) => {
+                        return <Message message={message} key={index} />;
+                      })}
                     </div>
-                    {messageDay.map((message, index) => {
-                      return <Message message={message} key={index} />;
-                    })}
-                  </div>
-                );
-              })} */}
-              {messages.map((message, index) => {
+                  );
+                }
+              )}
+              {/* {messages.map((message, index) => {
                 return <Message message={message} key={index} />;
-              })}
+              })} */}
             </div>
 
             <div
@@ -1075,16 +1109,7 @@ const getMessageDays = (messages) => {
 };
 
 const mapStateToProps = (state) => {
-  let messages;
-  let messageDays;
-  if (state.activeCustomer) {
-    messages = state.messages[state.activeCustomer.id];
-    messageDays = getMessageDays(messages);
-  }
   return {
-    activeCustomer: state.activeCustomer,
-    messages,
-    messageDays,
     activeChat: state.activeChat,
   };
 };
