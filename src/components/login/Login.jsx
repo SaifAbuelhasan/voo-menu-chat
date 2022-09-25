@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { connect } from "react-redux";
 import { setAuthedUser } from "../../actions/authedUser";
-import axios from "axios";
+import { useCookies } from "react-cookie";
 import { login } from "../../api/api";
 
 const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [cookies, setCookie, removeCookie] = useCookies(["authedUser"]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +17,7 @@ const Login = (props) => {
       const user = await login(username, password);
 
       props.dispatch(setAuthedUser(user));
+      setCookie("authedUser", user, { path: "/" });
     } catch (error) {
       setError("Invalid username or password");
       console.log(`error ${error}`);

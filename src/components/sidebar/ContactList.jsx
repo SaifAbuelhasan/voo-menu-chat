@@ -43,6 +43,7 @@ const ContactList = (props) => {
     const unsubscribe = onSnapshot(collectionQuery, (querySnapshot) => {
       const newChats = [];
       querySnapshot.forEach((doc) => {
+        console.log(doc.id);
         newChats.push({ ...doc.data(), id: doc.id });
       });
       setChats(newChats);

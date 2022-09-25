@@ -124,6 +124,7 @@ $(document).ready(function () {
 
   //Toggle Appbar
   $("#appNavTab .nav-link").on("click", function () {
+    console.log("clicked");
     $(".backdrop").addClass("backdrop-visible");
     $(".appnavbar-content").addClass("appnavbar-content-visible");
     $("#appNavTab .nav-link").removeClass("active");

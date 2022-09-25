@@ -1,7 +1,15 @@
 import Sidebar from "./components/sidebar/Sidebar";
 import Chat from "./components/chat/Chat";
+import { connect } from "react-redux";
+import { useCookies } from "react-cookie";
+import { setAuthedUser } from "./actions/authedUser";
 
 const Home = (props) => {
+  const [cookies, setCookie, removeCookie] = useCookies(["authedUser"]);
+  const logout = () => {
+    props.dispatch(setAuthedUser(null));
+    removeCookie("authedUser");
+  };
   return (
     <div className="main-layout">
       <Sidebar />
@@ -112,6 +120,33 @@ const Home = (props) => {
                     strokeWidth="2"
                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   />
+                </svg>
+              </a>
+            </li>
+
+            <li className="nav-item" role="presentation">
+              <a
+                className="nav-link"
+                id="logout-button"
+                data-toggle="tab"
+                href="#logout-button"
+                role="tab"
+                aria-controls="quick-settings"
+                aria-selected="false"
+                onClick={logout}
+              >
+                <svg
+                  class="hw-18 d-none d-sm-inline-block"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                  ></path>
                 </svg>
               </a>
             </li>
@@ -1124,4 +1159,4 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+export default connect()(Home);
