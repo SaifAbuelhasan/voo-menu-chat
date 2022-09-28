@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { connect } from "react-redux";
 import Message from "./Message";
 import ChatFooter from "./ChatFooter";
+import { setActiveChat } from "../../actions/activeChat";
 import { getDate, printDate } from "../../database/services";
 import {
   collection,
@@ -62,7 +63,7 @@ const Chat = (props) => {
         ["shopData.unreadMessages"]: 0,
       });
     }
-  }, [activeChat]);
+  }, [activeChat, messages]);
 
   // useRef to scroll to end of chat on new message
   const messagesEndRef = useRef(null);
@@ -83,6 +84,19 @@ const Chat = (props) => {
               className="btn btn-secondary btn-icon btn-minimal btn-sm text-muted d-xl-none"
               type="button"
               data-close=""
+              onClick={() => {
+                props.dispatch(
+                  setActiveChat({
+                    id: null,
+                    userInfo: null,
+                    lastMessageText: null,
+                    date: null,
+                  })
+                );
+                document
+                  .getElementsByClassName("main")[0]
+                  .classList.remove("main-visible");
+              }}
             >
               <svg
                 className="hw-20"
@@ -1091,21 +1105,6 @@ const Chat = (props) => {
       </div>
     </div>
   );
-};
-
-const getMessageDays = (messages) => {
-  const messageDays = [];
-  let lastDay = null;
-  let idx = -1;
-  messages.forEach((message) => {
-    if (lastDay !== getDate(message)) {
-      lastDay = getDate(message);
-      messageDays.push([]);
-      idx++;
-    }
-    messageDays[idx].push(message);
-  });
-  return messageDays;
 };
 
 const mapStateToProps = (state) => {

@@ -18,7 +18,12 @@ const Contact = (props) => {
   return (
     <li
       className={`contacts-item friends ${isActive} ${unread}`}
-      onClick={() => props.dispatch(setActiveChat(chat))}
+      onClick={() => {
+        props.dispatch(setActiveChat(chat));
+        document
+          .getElementsByClassName("main")[0]
+          .classList.add("main-visible");
+      }}
     >
       <a className="contacts-link">
         <div className="avatar avatar-online">

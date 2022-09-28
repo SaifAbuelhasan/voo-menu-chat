@@ -57,7 +57,7 @@ const ChatFooter = (props) => {
               />
             </svg>
           </button>
-          <div className="dropdown-menu nav-item list-inline-item d-block d-xl-none mr-1">
+          {/* <div className="dropdown-menu nav-item list-inline-item d-block d-xl-none mr-1">
             <a className="dropdown-item" href="#">
               <div className="image-upload">
                 <label for="file-input">
@@ -147,7 +147,7 @@ const ChatFooter = (props) => {
 
               <span>Location</span>
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
       <textarea

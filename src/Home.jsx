@@ -13,11 +13,11 @@ const Home = (props) => {
   return (
     <div className="main-layout">
       <Sidebar />
-      <main className="main main-visible">
+      <main className="main">
         <Chat />
       </main>
 
-      <div className="appbar">
+      <div className="appbar appbar-hidden">
         <div className="appbar-wrapper hide-scrollbar">
           <div className="d-flex justify-content-center border-bottom w-100">
             <button
@@ -128,11 +128,7 @@ const Home = (props) => {
               <a
                 className="nav-link"
                 id="logout-button"
-                data-toggle="tab"
-                href="#logout-button"
                 role="tab"
-                aria-controls="quick-settings"
-                aria-selected="false"
                 onClick={logout}
               >
                 <svg

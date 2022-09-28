@@ -179,7 +179,7 @@ $(document).ready(function () {
     }
   }
   checkSize();
-  $(window).resize(checkSize);
+  // $(window).resize(checkSize);
 
   // Emojione Area
   // $("#messageInput").emojioneArea();

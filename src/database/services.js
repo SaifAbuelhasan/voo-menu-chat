@@ -38,7 +38,7 @@ export const getTime = (seconds) => {
   const minutes = date.getMinutes();
   const minutesString = minutes < 10 ? "0" + minutes : minutes;
   const ampm = hours >= 12 ? "pm" : "am";
-  const hours12 = hours % 12;
+  const hours12 = hours === 12 ? hours : hours % 12;
   const hours12String = hours12 < 10 ? "0" + hours12 : hours12;
   const time = hours12String + ":" + minutesString + " " + ampm;
   return time;

@@ -46,7 +46,7 @@ const Login = (props) => {
                   type="text"
                   class="form-control form-control-md"
                   id="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter your phone number"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                 />
@@ -64,25 +64,7 @@ const Login = (props) => {
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div class="form-group d-flex justify-content-between">
-                <div class="custom-control custom-checkbox">
-                  <input
-                    type="checkbox"
-                    class="custom-control-input"
-                    checked=""
-                    id="checkbox-remember"
-                  />
-                  <label
-                    class="custom-control-label text-muted font-size-sm"
-                    for="checkbox-remember"
-                  >
-                    Remember me
-                  </label>
-                </div>
-                <a class="font-size-sm" href="reset-password.html">
-                  Reset password
-                </a>
-              </div>
+
               <button
                 href="chat-1.html"
                 class="btn btn-primary btn-lg btn-block text-uppercase font-weight-semibold"

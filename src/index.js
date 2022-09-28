@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals.js";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import reducer from "./reducers/index.js";
-import middleware from "./middleware/index.js";
 import logger from "./middleware/logger.js";
 
 const initialState = {

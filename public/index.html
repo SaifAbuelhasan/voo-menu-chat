@@ -50,7 +50,7 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root" style="height: 100%"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -70,10 +70,14 @@
     <script src="./assets/vendors/emojione/emojionearea.min.js"></script>
     <script src="./assets/js/app.js"></script>
     <!-- <script>
-      // Scroll to end of chat
-      document.querySelector(".chat-finished").scrollIntoView({
-        block: "end", // "start" | "center" | "end" | "nearest",
-        behavior: "auto", //"auto"  | "instant" | "smooth",
+      console.log("Hello");
+      var contacts = document.querySelectorAll(".contacts-link");
+      console.log(contacts);
+      contacts.forEach((contact) => {
+        console.log(contact);
+        contact.addEventListener("click", () => {
+          console.log("clicked");
+        });
       });
     </script> -->
   </body>
