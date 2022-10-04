@@ -28,28 +28,26 @@ const createChatData = async (shopId, branchId, customerId) => {
   await setDoc(chatDataRef, chatData);
 };
 
-const sendMessageByCustomer = (branchId, customerId, message) => {
+const sendMessageByCustomer = (branchId, customerId, text) => {
   const chatDataRef = doc(firestore, "chatData", `${branchId}${customerId}`);
   const messagesCollectionRef = collection(chatDataRef, "messages");
-  // add message to messages collection
-  addDoc(messagesCollectionRef, {
-    text: message,
-    date: { seconds: Date.now() / 1000, nanoseconds: Date.now() },
+  const message = {
+    text: text,
     sentByShop: false,
-  });
+    date: { seconds: Date.now() / 1000, milliseconds: Date.now() },
+  };
+  // add message to messages collection
+  addDoc(messagesCollectionRef, message);
   // update lastMessage
   updateDoc(chatDataRef, {
-    lastMessage: {
-      text: message,
-      date: { seconds: Date.now() / 1000, nanoseconds: Date.now() },
-    },
+    lastMessage: message,
     ["shopData.unreadMessages"]: increment(1),
   });
 };
 
 const shopId = "6588";
 const branches = ["3139", "3215"];
-const customerId = "12345";
+const customerId = "235";
 
 const buildChat = async () => {
   await createChatData(shopId, branches[1], customerId);
@@ -57,7 +55,7 @@ const buildChat = async () => {
   sendMessageByCustomer(branches[1], customerId, "test");
 };
 
-sendMessageByCustomer(branches[1], customerId, "Test test");
+sendMessageByCustomer(branches[0], customerId, "hello hello");
 
 // buildChat();
 

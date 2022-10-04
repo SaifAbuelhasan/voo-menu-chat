@@ -27,10 +27,7 @@ const Contact = (props) => {
     >
       <a className="contacts-link">
         <div className="avatar avatar-online">
-          <img
-            src={`../../assets/media/avatar/${customerData.avatar}.png`}
-            alt=""
-          />
+          <img src={customerData.avatar} alt="" />
         </div>
         <div className="contacts-content">
           <div className="contacts-info">

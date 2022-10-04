@@ -18,13 +18,9 @@ const Message = (props) => {
       <div className="message-options">
         <div className="avatar avatar-sm">
           {isSelf ? (
-            <img
-              alt=""
-              // src={`${domainURL}/${props.authedUser.EmployeeImage}`}
-              src={`../../assets/media/avatar/3.png`}
-            />
+            <img alt="" src={props.activeChat.shopData.avatar} />
           ) : (
-            <img alt="" src={`../../assets/media/avatar/${avatar}.png`} />
+            <img alt="" src={avatar} />
           )}
         </div>
         <span className="message-date">{time}</span>

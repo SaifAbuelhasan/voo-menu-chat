@@ -48,6 +48,9 @@ const Chat = (props) => {
             newMessages.push(doc.data());
           });
           setMessages(newMessages);
+          updateDoc(doc(firestore, "chatData", activeChat.id), {
+            ["shopData.unreadMessages"]: 0,
+          });
         }
       );
 
@@ -55,15 +58,6 @@ const Chat = (props) => {
     }
     return undefined;
   }, [activeChat.id]);
-
-  // set unread messages to 0
-  useEffect(() => {
-    if (activeChat.id) {
-      updateDoc(doc(firestore, "chatData", activeChat.id), {
-        ["shopData.unreadMessages"]: 0,
-      });
-    }
-  }, [activeChat, messages]);
 
   // useRef to scroll to end of chat on new message
   const messagesEndRef = useRef(null);
@@ -115,11 +109,7 @@ const Chat = (props) => {
 
             <div className="media chat-name align-items-center text-truncate">
               <div className="avatar avatar-online d-none d-sm-inline-block mr-3">
-                <img
-                  id="chat-header-img"
-                  src={`../../assets/media/avatar/${avatar}.png`}
-                  alt=""
-                />
+                <img id="chat-header-img" src={avatar} alt="" />
               </div>
 
               <div className="media-body align-self-center">
@@ -627,11 +617,7 @@ const Chat = (props) => {
           <div className="hide-scrollbar flex-fill">
             <div className="text-center p-3">
               <div className="avatar avatar-xl mx-5 mb-3">
-                <img
-                  className="avatar-img"
-                  src={`../../assets/media/avatar/${avatar}.png`}
-                  alt=""
-                />
+                <img className="avatar-img" src={avatar} alt="" />
               </div>
 
               <h5 className="mb-1">placeholder</h5>

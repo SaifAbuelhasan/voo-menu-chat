@@ -43,7 +43,6 @@ const ContactList = (props) => {
     const unsubscribe = onSnapshot(collectionQuery, (querySnapshot) => {
       const newChats = [];
       querySnapshot.forEach((doc) => {
-        console.log(doc.id);
         newChats.push({ ...doc.data(), id: doc.id });
       });
       setChats(newChats);
@@ -51,19 +50,10 @@ const ContactList = (props) => {
     return unsubscribe;
   }, [props.activeBranches]);
 
-  /**
-   * change the state of the activeCustomer
-   * @param {Object} customer - customer to be set as active
-   */
-  const changeActiveCustomer = (customer) => {
-    props.dispatch(setActiveCustomer(customer));
-  };
   return (
     <ul className="contacts-list" id="chatContactTab" data-chat-list="">
       {chats.map((chat, idx) => {
-        return (
-          <Contact key={idx} chat={chat} handleClick={changeActiveCustomer} />
-        );
+        return <Contact key={idx} chat={chat} />;
       })}
     </ul>
   );
